@@ -3,6 +3,7 @@ import { useFetch } from '../hooks/useFetch'
 import type { ProductInterface } from '../types/product.interface'
 import { API_ITEMS_PER_PAGE_LIMIT, createUrl } from '../utils/mockapi'
 import Product from '../components/Product'
+import AddProductButton from '../components/AddProductButton'
 
 const Products = () => {
   const [page, setPage] = useState(1)
@@ -16,6 +17,7 @@ const Products = () => {
   return (
     <div>
       <h1>Products List</h1>
+      <AddProductButton />
       {isLoading && <h2 className="loading">Loading products...</h2>}
       {error && <h2 className="error">{error}</h2>}
       {!isLoading && !error && products.length > 0 && (

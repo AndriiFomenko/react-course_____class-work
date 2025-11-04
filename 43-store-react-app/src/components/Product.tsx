@@ -2,6 +2,7 @@ import { FaEdit, FaTrash } from 'react-icons/fa'
 import type { ProductInterface } from '../types/product.interface'
 import { API_URL } from '../utils/mockapi'
 import { useDelete } from '../hooks/useDelete'
+import EditProductButton from './EditProductButton'
 
 interface ProductProps {
   product: ProductInterface
@@ -23,20 +24,28 @@ const Product = ({
     }
   }
 
+  const defaultImage: string = 'https://picsum.photos/640/480?random=graphics'
+
+  const imageUrl: string =
+    image || image.startsWith('https') ? image : defaultImage
+
   return (
     <li className="product-item">
       <h2 className="product-item__title">{name}</h2>
       <p className="product-item__description">{description}</p>
       <p className="product-item__category">{category}</p>
       <h3 className="product-item__price">${price}</h3>
-      <img className="product-item__image" src={image} alt={name} />
+      <img className="product-item__image" src={imageUrl} alt={name} />
       <div className="product-item__actions">
         <button className="product-item__delete" onClick={handleDeleteProduct}>
           <FaTrash />
         </button>
-        <button className="product-item__edit">
+        <EditProductButton
+          product={{ id, name, description, category, price, image }}
+          reload={reload}
+        >
           <FaEdit />
-        </button>
+        </EditProductButton>
       </div>
     </li>
   )
