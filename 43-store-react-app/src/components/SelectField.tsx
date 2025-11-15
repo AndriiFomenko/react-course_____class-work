@@ -1,10 +1,11 @@
 import type { ChangeEvent } from 'react'
+import type { SelectOption } from '../data/mockData'
 
 interface SelectFieldProps {
   id: string
   value: string
   onChange: (e: ChangeEvent<HTMLSelectElement>) => void
-  options: string[]
+  options: SelectOption[]
   required?: boolean
 }
 
@@ -27,10 +28,9 @@ const SelectField = ({
         onChange={onChange}
         required={required}
       >
-        <option value="">Select a category</option>
         {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
+          <option key={option.value} value={option.value}>
+            {option.text}
           </option>
         ))}
       </select>
