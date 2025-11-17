@@ -1,22 +1,20 @@
 import { useState } from 'react'
-import randomizer from '../utils/randomizer'
 
-interface RandomProps {
-  min: number
-  max: number
+const randomizer = () => {
+  return Math.floor(Math.random() * 100)
 }
 
-const Random = ({ min, max }: RandomProps) => {
-  const [num, setNum] = useState(randomizer(min, max))
+const Random = () => {
+  const [num, setNum] = useState(randomizer()) // State variable 'num' initialized to 0
 
-  const changeNum = () => {
-    setNum(randomizer(min, max))
+  const changeNumber = () => {
+    setNum(randomizer()) // Update 'num' with a random number between 0 and 99
   }
 
   return (
     <div>
       <h1>{num}</h1>
-      <button onClick={changeNum}>Generate</button>
+      <button onClick={changeNumber}>Generate Random</button>
     </div>
   )
 }

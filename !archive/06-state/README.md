@@ -1,1 +1,3 @@
-# React + TypeScript + Vite
+# React + TypeScript + Vite Starter
+
+## Обовязково додати опис проекту!
