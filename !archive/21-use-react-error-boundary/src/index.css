@@ -1,0 +1,385 @@
+/* =========================================
+   Modern Reset & Base Variables
+   ========================================= */
+:root {
+  --bg-color: #0f172a; /* Dark Slate 900 */
+  --text-primary: #f8fafc; /* Slate 50 */
+  --text-secondary: #cbd5e1; /* Slate 300 */
+  --card-bg: rgba(30, 41, 59, 0.6); /* Slate 800 with opacity */
+  --card-border: rgba(148, 163, 184, 0.1);
+  --accent-color: #38bdf8; /* Sky 400 */
+  --accent-secondary: #818cf8; /* Indigo 400 */
+  --accent-glow: rgba(56, 189, 248, 0.2);
+  --error-bg: rgba(220, 38, 38, 0.1);
+  --error-border: rgba(220, 38, 38, 0.5);
+  --error-text: #fecaca;
+  --font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+  --container-width: 1200px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  min-height: 100vh;
+  /* Center the main #root vertically and horizontally */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align top, creating space with margin */
+  background-image:
+    radial-gradient(circle at 15% 25%, rgba(56, 189, 248, 0.1) 0%, transparent 25%),
+    radial-gradient(circle at 85% 75%, rgba(129, 140, 248, 0.1) 0%, transparent 25%);
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+/* =========================================
+   Main Container Architecture
+   Selector: body > #root > App/Loading Container
+   ========================================= */
+body > div > div {
+  width: 100%;
+  max-width: var(--container-width);
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+  padding: 2rem;
+  box-sizing: border-box;
+  /* Ensure centering of itself */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* =========================================
+   Header Styling (App)
+   ========================================= */
+h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 4rem;
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-secondary) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -0.02em;
+  filter: drop-shadow(0 0 30px rgba(56, 189, 248, 0.4));
+  animation: fadeInDown 0.8s ease-out;
+}
+
+/* =========================================
+   User List Grid (Responsive)
+   Selector: body > #root > App > ul
+   ========================================= */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  display: grid;
+  gap: 2rem;
+
+  /* Mobile First: 1 Column */
+  grid-template-columns: 1fr;
+}
+
+/* Tablet (Medium): 2 Columns */
+@media (min-width: 768px) {
+  ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop (Large): 3 Columns */
+@media (min-width: 1024px) {
+  ul {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Orphan Fix: Якщо останній елемент один у рядку (3n+1), розтягуємо на всі 3 колонки */
+  /* але залишаємо той самий стиль що й у інших карток */
+  li:last-child:nth-child(3n + 1) {
+    grid-column: 1 / -1; /* Span всі колонки */
+  }
+}
+
+/* =========================================
+   Card Styling (Li)
+   ========================================= */
+li {
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  padding: 2rem;
+
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-align: center;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
+
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+
+  /* Initial state for animation */
+  animation: slideUp 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+/* Hover Effects */
+li:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(56, 189, 248, 0.5);
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.3),
+    0 0 20px var(--accent-glow);
+  background: rgba(30, 41, 59, 0.9);
+  z-index: 10;
+}
+
+/* Shine Effect */
+li::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+  transform: skewX(-20deg);
+  transition: 0.5s;
+}
+
+li:hover::after {
+  left: 150%;
+  transition: 0.7s ease-in-out;
+}
+
+/* =========================================
+   Loading Animation (Spinner)
+   ========================================= */
+
+/* The Spinner Container (The generic div from Loading.tsx wrappers) */
+body > div > div:has(> div:only-child) {
+  height: 80vh; /* Full screen height for loader */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Fallback for no :has support: Just target the deeply nested div */
+body > div > div > div {
+  width: 120px;
+  height: 120px;
+  position: relative;
+}
+
+/* The Actual Spinner Animation (Inner Div) */
+body > div > div > div {
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 4px rgba(56, 189, 248, 0.1),
+    0 0 0 8px rgba(56, 189, 248, 0.1),
+    0 0 20px var(--accent-color);
+  animation: pulse-spin 2s linear infinite;
+}
+
+/* Decorative pseudo-elements for the spinner */
+body > div > div > div::before,
+body > div > div > div::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  border: 4px solid transparent;
+}
+
+body > div > div > div::before {
+  border-top-color: var(--accent-color);
+  animation: spin 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+}
+
+body > div > div > div::after {
+  border-left-color: var(--accent-secondary);
+  animation: spin 2s linear infinite reverse;
+}
+
+/* =========================================
+   Alert / Error Card Styling
+   ========================================= */
+.error-card {
+  background: rgba(20, 10, 10, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--error-border);
+  box-shadow:
+    0 0 30px rgba(220, 38, 38, 0.15),
+    inset 0 0 20px rgba(220, 38, 38, 0.05);
+  border-radius: 16px;
+  padding: 3rem;
+  max-width: 500px;
+  margin: 10vh auto;
+  text-align: center;
+  color: var(--error-text);
+  animation: slideUp 0.5s ease-out;
+}
+
+.error-icon {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  display: inline-block;
+  filter: drop-shadow(0 0 10px rgba(220, 38, 38, 0.4));
+  animation: shake 0.5s ease-in-out;
+}
+
+.error-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  color: #f87171;
+  letter-spacing: -0.01em;
+}
+
+.error-message {
+  font-family: 'Fira Code', monospace;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #fca5a5;
+  margin-bottom: 2rem;
+  border: 1px dashed rgba(220, 38, 38, 0.3);
+  overflow-x: auto;
+}
+
+.error-button {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);
+  font-family: var(--font-family);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  gap: 0.5rem;
+}
+
+.error-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.6);
+  filter: brightness(1.1);
+}
+
+.error-button:active {
+  transform: translateY(1px);
+}
+
+/* Keyframes */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse-spin {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.4);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 20px rgba(56, 189, 248, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(56, 189, 248, 0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px) rotate(-5deg);
+  }
+  75% {
+    transform: translateX(5px) rotate(5deg);
+  }
+}
+
+/* Staggered Delays for List Items (1 to 20) */
+li:nth-child(1) {
+  animation-delay: 0.05s;
+}
+li:nth-child(2) {
+  animation-delay: 0.1s;
+}
+li:nth-child(3) {
+  animation-delay: 0.15s;
+}
+li:nth-child(4) {
+  animation-delay: 0.2s;
+}
+li:nth-child(5) {
+  animation-delay: 0.25s;
+}
+li:nth-child(6) {
+  animation-delay: 0.3s;
+}
+li:nth-child(7) {
+  animation-delay: 0.35s;
+}
+li:nth-child(8) {
+  animation-delay: 0.4s;
+}
+li:nth-child(9) {
+  animation-delay: 0.45s;
+}
+li:nth-child(10) {
+  animation-delay: 0.5s;
+}
