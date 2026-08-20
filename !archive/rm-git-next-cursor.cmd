@@ -1,1 +1,0 @@
-FOR /d /r . %%d in (.git .next .cursor) DO @IF EXIST "%%d" RD /S /Q "%%d"
