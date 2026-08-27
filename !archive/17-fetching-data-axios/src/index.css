@@ -1,0 +1,466 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+/* ==========================================================================
+   Base & Reset Styles
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  min-height: 100vh;
+  font-family: 'Outfit', 'Plus Jakarta Sans', -apple-system, blinkmacsystemfont, sans-serif;
+  background-color: #080c14;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(236, 72, 153, 0.12) 0px, transparent 50%),
+    radial-gradient(at 50% 100%, rgba(6, 182, 212, 0.1) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, #0b0f1a 0%, #050810 100%);
+  background-attachment: fixed;
+  color: #f1f5f9;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==========================================================================
+   Root Layout Container
+   ========================================================================== */
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 48px 24px;
+  position: relative;
+}
+
+/* ==========================================================================
+   Futuristic Pulsing Animated Preloader / Spinner
+   Targeting: #root > h1 (when only h1 is rendered during loading)
+   ========================================================================== */
+#root > h1:only-child {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  padding-top: 140px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #ec4899 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: pulseText 2s ease-in-out infinite;
+  user-select: none;
+}
+
+/* Outer Spinning Orbital Ring */
+#root > h1:only-child::before {
+  content: '';
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #38bdf8;
+  border-right-color: #818cf8;
+  border-bottom-color: #ec4899;
+  filter: drop-shadow(0 0 16px rgba(129, 140, 248, 0.65));
+  animation: spinOrbit 1.25s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+}
+
+/* Inner Pulsing Neon Core */
+#root > h1:only-child::after {
+  content: '';
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ec4899 0%, #818cf8 50%, #38bdf8 100%);
+  box-shadow: 
+    0 0 20px #ec4899,
+    0 0 40px #818cf8,
+    0 0 60px #38bdf8;
+  animation: pulseCore 1.25s ease-in-out infinite alternate;
+}
+
+/* Background Ambient Radar & Wave for Loader */
+#root:has(> h1:only-child)::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, calc(-50% - 30px));
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  border: 1px dashed rgba(129, 140, 248, 0.35);
+  animation: radarSpin 12s linear infinite;
+  pointer-events: none;
+}
+
+#root:has(> h1:only-child)::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, calc(-50% - 30px));
+  width: 230px;
+  height: 230px;
+  border-radius: 50%;
+  border: 1px solid rgba(56, 189, 248, 0.15);
+  box-shadow: 0 0 35px rgba(56, 189, 248, 0.08);
+  animation: rippleWave 2.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Main Content Layout
+   ========================================================================== */
+#root > div {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ==========================================================================
+   Header (Users list)
+   ========================================================================== */
+#root > div > h1 {
+  font-size: clamp(2.2rem, 5vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  text-align: center;
+  background: linear-gradient(135deg, #ffffff 20%, #cbd5e1 60%, #818cf8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  position: relative;
+  padding-bottom: 20px;
+  user-select: none;
+}
+
+/* Category Badge Above Title */
+#root > div > h1::before {
+  content: '⚡ Directory Network';
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #38bdf8;
+  margin-bottom: 10px;
+  text-shadow: 0 0 16px rgba(56, 189, 248, 0.4);
+}
+
+/* Glowing Gradient Line Under Title */
+#root > div > h1::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #38bdf8, #818cf8, #ec4899);
+  box-shadow: 0 0 16px rgba(129, 140, 248, 0.6);
+}
+
+/* ==========================================================================
+   Cards Grid (ul & li)
+   ========================================================================== */
+#root > div > ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 24px;
+  counter-reset: card-counter;
+}
+
+#root > div > ul > li {
+  counter-increment: card-counter;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 26px 28px;
+  padding-left: 88px;
+  min-height: 105px;
+  background: linear-gradient(145deg, rgba(30, 41, 59, 0.55) 0%, rgba(15, 23, 42, 0.75) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    0 8px 32px -4px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  color: #f8fafc;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: cardEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Card Avatar Badge with Counter */
+#root > div > ul > li::before {
+  content: counter(card-counter);
+  position: absolute;
+  left: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 800;
+  box-shadow: 0 4px 18px rgba(99, 102, 241, 0.45);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Interactive Card Light Sheen */
+#root > div > ul > li::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.09), transparent);
+  transition: transform 0.6s ease;
+  pointer-events: none;
+}
+
+/* Card Hover & Focus States */
+#root > div > ul > li:hover {
+  transform: translateY(-6px) scale(1.02);
+  background: linear-gradient(145deg, rgba(51, 65, 85, 0.7) 0%, rgba(30, 41, 59, 0.85) 100%);
+  border-color: rgba(129, 140, 248, 0.45);
+  box-shadow: 
+    0 20px 40px -8px rgba(0, 0, 0, 0.6),
+    0 0 28px rgba(99, 102, 241, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+#root > div > ul > li:hover::before {
+  transform: translateY(-50%) rotate(8deg) scale(1.1);
+  box-shadow: 0 6px 24px rgba(236, 72, 153, 0.65);
+}
+
+#root > div > ul > li:hover::after {
+  transform: translateX(240%);
+}
+
+/* Card Stagger Animations */
+#root > div > ul > li:nth-child(1) { animation-delay: 0.04s; }
+#root > div > ul > li:nth-child(2) { animation-delay: 0.08s; }
+#root > div > ul > li:nth-child(3) { animation-delay: 0.12s; }
+#root > div > ul > li:nth-child(4) { animation-delay: 0.16s; }
+#root > div > ul > li:nth-child(5) { animation-delay: 0.20s; }
+#root > div > ul > li:nth-child(6) { animation-delay: 0.24s; }
+#root > div > ul > li:nth-child(7) { animation-delay: 0.28s; }
+#root > div > ul > li:nth-child(8) { animation-delay: 0.32s; }
+#root > div > ul > li:nth-child(9) { animation-delay: 0.36s; }
+#root > div > ul > li:nth-child(10) { animation-delay: 0.40s; }
+#root > div > ul > li:nth-child(n+11) { animation-delay: 0.44s; }
+
+/* ==========================================================================
+   Error State Layout
+   ========================================================================== */
+#root > div:has(> h2) {
+  max-width: 520px;
+  padding: 44px 36px;
+  border-radius: 24px;
+  background: rgba(30, 15, 20, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  box-shadow: 
+    0 24px 60px rgba(0, 0, 0, 0.5),
+    0 0 35px rgba(239, 68, 68, 0.2);
+  text-align: center;
+  gap: 16px;
+  animation: fadeIn 0.4s ease-out;
+}
+
+#root > div:has(> h2) > h1 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #fca5a5 0%, #ef4444 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding-bottom: 0;
+}
+
+#root > div:has(> h2) > h1::before {
+  content: '⚠️ Warning';
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: #f87171;
+  margin-bottom: 8px;
+}
+
+#root > div:has(> h2) > h1::after {
+  display: none;
+}
+
+#root > div:has(> h2) > h2 {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.1);
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: 1px dashed rgba(239, 68, 68, 0.3);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* ==========================================================================
+   Keyframe Animations
+   ========================================================================== */
+@keyframes spinOrbit {
+  0% {
+    transform: translateX(-50%) rotate(0deg) scale(0.92);
+  }
+  50% {
+    transform: translateX(-50%) rotate(180deg) scale(1.08);
+  }
+  100% {
+    transform: translateX(-50%) rotate(360deg) scale(0.92);
+  }
+}
+
+@keyframes pulseCore {
+  0% {
+    transform: translateX(-50%) scale(0.7);
+    opacity: 0.6;
+    box-shadow: 
+      0 0 15px #ec4899, 
+      0 0 30px #818cf8;
+  }
+  100% {
+    transform: translateX(-50%) scale(1.15);
+    opacity: 1;
+    box-shadow: 
+      0 0 25px #ec4899, 
+      0 0 50px #818cf8, 
+      0 0 75px #38bdf8;
+  }
+}
+
+@keyframes pulseText {
+  0%, 100% {
+    opacity: 0.7;
+    letter-spacing: 0.35em;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    letter-spacing: 0.45em;
+    text-shadow: 0 0 16px rgba(129, 140, 248, 0.8);
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes radarSpin {
+  0% {
+    transform: translate(-50%, calc(-50% - 30px)) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, calc(-50% - 30px)) rotate(360deg);
+  }
+}
+
+@keyframes rippleWave {
+  0% {
+    transform: translate(-50%, calc(-50% - 30px)) scale(0.7);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, calc(-50% - 30px)) scale(1.4);
+    opacity: 0;
+  }
+}
+
+@keyframes cardEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(24px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
+   Responsive Adjustments
+   ========================================================================== */
+@media (max-width: 640px) {
+  #root {
+    padding: 32px 16px;
+  }
+
+  #root > div > ul {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  #root > div > ul > li {
+    padding: 20px 24px;
+    padding-left: 80px;
+    font-size: 1.05rem;
+  }
+
+  #root > div > ul > li::before {
+    left: 18px;
+    width: 42px;
+    height: 42px;
+    font-size: 0.88rem;
+  }
+}
