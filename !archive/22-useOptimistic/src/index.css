@@ -1,0 +1,501 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 48px 16px 64px;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  color: #f8fafc;
+  background:
+    radial-gradient(700px 380px at 15% 0%, rgba(168, 85, 247, 0.55) 0%, transparent 65%),
+    radial-gradient(700px 380px at 85% 10%, rgba(34, 211, 238, 0.45) 0%, transparent 65%),
+    radial-gradient(900px 600px at 50% 110%, rgba(244, 114, 182, 0.35) 0%, transparent 60%),
+    linear-gradient(180deg, #020617 0%, #0b1030 50%, #020617 100%);
+  overflow-x: hidden;
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::before {
+  width: 520px;
+  height: 520px;
+  left: -160px;
+  top: -160px;
+  background: rgba(124, 58, 237, 0.55);
+  animation: drift 10s ease-in-out infinite alternate;
+}
+
+body::after {
+  width: 560px;
+  height: 560px;
+  right: -180px;
+  bottom: -180px;
+  background: rgba(6, 182, 212, 0.45);
+  animation: drift 13s ease-in-out infinite alternate-reverse;
+}
+
+div {
+  position: relative;
+  z-index: 1;
+}
+
+body > div {
+  width: 100%;
+  max-width: 620px;
+  display: flex;
+  justify-content: center;
+}
+
+body > div > div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+body > div > div::before {
+  content: "useOptimistic";
+  display: block;
+  text-align: center;
+  font-size: 56px;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  background: linear-gradient(92deg, #f0abfc 0%, #a78bfa 35%, #67e8f9 70%, #a5f3fc 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 8px 32px rgba(167, 139, 250, 0.45));
+}
+
+body > div > div::after {
+  content: "Миттєвий UI • сервер думає 2 секунди • бурштиновий пульс = pending";
+  display: block;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(226, 232, 240, 0.72);
+  padding-bottom: 8px;
+}
+
+form {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  background: rgba(13, 17, 38, 0.78);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 28px;
+  padding: 86px 20px 18px;
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(167, 139, 250, 0.12),
+    0 0 60px rgba(124, 58, 237, 0.25);
+  overflow: hidden;
+}
+
+form::before {
+  content: "● LIVE  •  optimistic chat  •  2s delay";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 22px 24px 20px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #fff;
+  background:
+    radial-gradient(400px 120px at 20% 0%, rgba(255, 255, 255, 0.35) 0%, transparent 70%),
+    linear-gradient(135deg, #7c3aed 0%, #4f46e5 45%, #0891b2 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+  animation: headerGlow 2.4s ease-in-out infinite alternate;
+}
+
+form::after {
+  content: "бурштиновий пульсуючий = відправляється  •  зелений ✓ = підтверджено сервером";
+  flex: 1 1 100%;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.6;
+  color: rgba(203, 213, 225, 0.65);
+  padding: 6px 8px 2px;
+}
+
+form > div {
+  flex: 1 1 260px;
+  min-width: 0;
+  display: flex;
+}
+
+input {
+  width: 100%;
+  appearance: none;
+  border: 1.5px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 16px 18px;
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 500;
+  color: #fff;
+  outline: none;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+input::placeholder {
+  color: rgba(203, 213, 225, 0.55);
+}
+
+input:hover {
+  border-color: rgba(167, 139, 250, 0.6);
+  background: rgba(255, 255, 255, 0.11);
+}
+
+input:focus {
+  border-color: #a78bfa;
+  background: rgba(255, 255, 255, 0.13);
+  box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.28), 0 0 32px rgba(124, 58, 237, 0.35);
+}
+
+button {
+  position: relative;
+  flex: 0 0 auto;
+  appearance: none;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 18px;
+  padding: 16px 28px;
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #0f072e;
+  background: linear-gradient(135deg, #f0abfc 0%, #c4b5fd 35%, #67e8f9 100%);
+  box-shadow: 0 10px 32px rgba(192, 132, 252, 0.45);
+  transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 60px;
+  left: -80px;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.85), transparent);
+  transform: skewX(-18deg);
+  animation: shine 2.8s ease-in-out infinite;
+}
+
+button:hover {
+  transform: translateY(-2px) scale(1.02);
+  filter: brightness(1.08);
+  box-shadow: 0 16px 40px rgba(192, 132, 252, 0.6);
+}
+
+button:active {
+  transform: translateY(1px) scale(0.97);
+}
+
+ul {
+  flex: 1 1 100%;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 260px;
+  max-height: 420px;
+  overflow-y: auto;
+  background: rgba(2, 6, 23, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 22px;
+  padding: 18px;
+  box-shadow: inset 0 2px 24px rgba(0, 0, 0, 0.45);
+  scroll-behavior: smooth;
+}
+
+ul:empty::after {
+  content: "👆 Напиши щось — воно зʼявиться МИТТЄВО бурштиновим, а за 2 секунди стане зеленим ✓";
+  display: block;
+  text-align: center;
+  margin: auto;
+  padding: 36px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.7;
+  color: rgba(226, 232, 240, 0.85);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1.5px dashed rgba(167, 139, 250, 0.5);
+  border-radius: 18px;
+}
+
+ul::-webkit-scrollbar {
+  width: 8px;
+}
+
+ul::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+ul::-webkit-scrollbar-thumb {
+  background: rgba(167, 139, 250, 0.55);
+  border-radius: 999px;
+}
+
+li {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 88%;
+  width: fit-content;
+  min-width: 220px;
+  padding: 16px 18px;
+  border-radius: 6px 22px 22px 22px;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  animation: pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+li p {
+  font-size: 18px;
+  line-height: 1.5;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+li:has(strong) {
+  background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+li:has(strong) p {
+  color: #0f172a;
+}
+
+li:has(em) {
+  align-self: stretch;
+  max-width: 100%;
+  width: auto;
+  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 45%, #fef3c7 100%);
+  border: 2px solid #f59e0b;
+  box-shadow:
+    0 0 0 5px rgba(245, 158, 11, 0.22),
+    0 14px 44px rgba(245, 158, 11, 0.5),
+    0 0 80px rgba(245, 158, 11, 0.25);
+  transform-origin: left center;
+  animation: pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both, pendingGlow 1.1s ease-in-out infinite alternate;
+}
+
+li:has(em)::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 46%;
+  left: -60%;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.9), transparent);
+  transform: skewX(-16deg);
+  animation: sweep 1.2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+li:has(em) p {
+  color: #7c2d12;
+  font-size: 19px;
+}
+
+em {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  width: fit-content;
+  font-style: normal;
+  padding: 8px 14px 8px 12px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f59e0b, #ea580c);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(234, 88, 12, 0.5);
+  animation: badgePulse 0.9s ease-in-out infinite alternate;
+}
+
+em i {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.35;
+  animation: dotBounce 0.9s ease-in-out infinite;
+}
+
+em i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+em i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+em small {
+  margin-left: 4px;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+strong {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #047857;
+  background: rgba(16, 185, 129, 0.14);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pendingGlow {
+  from {
+    box-shadow:
+      0 0 0 3px rgba(245, 158, 11, 0.18),
+      0 10px 30px rgba(245, 158, 11, 0.4);
+  }
+  to {
+    box-shadow:
+      0 0 0 8px rgba(245, 158, 11, 0.3),
+      0 18px 56px rgba(245, 158, 11, 0.65),
+      0 0 100px rgba(245, 158, 11, 0.35);
+  }
+}
+
+@keyframes badgePulse {
+  from {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  to {
+    transform: scale(1.07);
+    filter: brightness(1.15);
+  }
+}
+
+@keyframes dotBounce {
+  0%, 100% {
+    opacity: 0.3;
+    transform: translateY(0) scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.15);
+  }
+}
+
+@keyframes sweep {
+  from {
+    left: -60%;
+  }
+  to {
+    left: 130%;
+  }
+}
+
+@keyframes shine {
+  0%, 60% {
+    left: -80px;
+  }
+  100% {
+    left: 130%;
+  }
+}
+
+@keyframes drift {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(50px, 36px) scale(1.1);
+  }
+}
+
+@keyframes headerGlow {
+  from {
+    filter: brightness(1);
+  }
+  to {
+    filter: brightness(1.18);
+  }
+}
+
+@media (max-width: 560px) {
+  body {
+    padding: 28px 10px 40px;
+  }
+
+  body > div > div::before {
+    font-size: 40px;
+  }
+
+  form {
+    padding: 82px 14px 14px;
+    border-radius: 22px;
+  }
+
+  button {
+    flex: 1 1 100%;
+  }
+
+  li {
+    max-width: 94%;
+    min-width: 0;
+  }
+
+  li:has(em) {
+    max-width: 100%;
+  }
+}

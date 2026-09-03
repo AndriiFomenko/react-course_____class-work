@@ -1,0 +1,428 @@
+// ==========================================================================
+// 25-less — ЄДИНИЙ GLOBAL stylesheet (src/index.less)
+// Той самий результат, що й у №24, але на Less замість SCSS:
+// змінні через @, міксин як клас .flex-center() з викликом .flex-center();,
+// вкладеність селекторів, батьківський селектор (&) і вкладені @media.
+// Жодних *.module.css, жодних імпортів стилів у компонентах.
+// Класи userCard* / guestCard* лежать тут у глобальній області —
+// компоненти беруть їх звичайними рядками className="...".
+// ==========================================================================
+
+// --- Less: змінні палітри, шрифту й ізингу ---
+@font-stack: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
+  Roboto, Helvetica, Arial, sans-serif;
+@ink: #f1f5f9;
+@bg-deep: #020617;
+@violet: #7c3aed;
+@cyan: #0ea5e9;
+@amber: #f59e0b;
+@ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+// --- Less: міксин центрування (дужки () ховають його з готового CSS) ---
+.flex-center() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:root {
+  font-family: @font-stack;
+  line-height: 1.5;
+  color: @ink;
+  background-color: @bg-deep;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  .flex-center();
+  padding: 40px 16px;
+  background:
+    radial-gradient(600px 400px at 15% 20%, rgba(124, 58, 237, 0.35), transparent 60%),
+    radial-gradient(700px 450px at 85% 15%, rgba(34, 211, 238, 0.28), transparent 60%),
+    radial-gradient(800px 600px at 50% 100%, rgba(236, 72, 153, 0.22), transparent 65%),
+    @bg-deep;
+  overflow: hidden;
+  position: relative;
+
+  // Less: плаваючі орбіти вкладені в body через батьківський селектор &
+  &::before,
+  &::after {
+    content: '';
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.55;
+    pointer-events: none;
+    animation: drift 14s ease-in-out infinite alternate;
+  }
+
+  &::before {
+    width: 420px;
+    height: 420px;
+    left: -120px;
+    top: -120px;
+    background: @violet;
+  }
+
+  &::after {
+    width: 380px;
+    height: 380px;
+    right: -110px;
+    bottom: -130px;
+    background: @cyan;
+    animation-delay: -7s;
+  }
+}
+
+@keyframes drift {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(60px, 40px) scale(1.15);
+  }
+}
+
+// Less: ієрархія #root > div з вкладеними псевдоелементами й @media
+#root {
+  width: 100%;
+  max-width: 560px;
+  position: relative;
+  z-index: 1;
+
+  // Єдиний div з App.tsx, оформлений глобально як скляна картка
+  > div {
+    position: relative;
+    text-align: center;
+    font-size: clamp(28px, 6vw, 44px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    padding: 56px 40px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow:
+      0 24px 80px rgba(0, 0, 0, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    animation: rise 0.9s @ease-out both;
+
+    // Сяюча рамка поверх картки
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 24px;
+      padding: 1px;
+      background: linear-gradient(135deg, #a78bfa, #22d3ee, #f472b6, #a78bfa);
+      background-size: 300% 300%;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      animation: borderFlow 6s linear infinite;
+    }
+
+    // Підпис під карткою
+    &::after {
+      content: 'global less only — no modules here';
+      display: block;
+      margin-top: 16px;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(241, 245, 249, 0.55);
+    }
+
+    // Less: вкладений @media — компілятор сам винесе його нагору
+    @media (max-width: 560px) {
+      padding: 40px 24px;
+    }
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes borderFlow {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 300% 50%;
+  }
+}
+
+// ==========================================================================
+// UserCard — ті самі глобальні класи, що й у №24,
+// згруповані Less-вкладеністю під .userCard. Вигляд 1-в-1.
+// ==========================================================================
+
+.userCard {
+  position: relative;
+  margin-top: 28px;
+  padding: 28px 24px 24px;
+  border-radius: 18px;
+  background: rgba(2, 6, 23, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  animation: userCardPop 0.7s @ease-out 0.15s both;
+
+  .userCardAvatar {
+    width: 76px;
+    height: 76px;
+    margin: -64px auto 12px;
+    .flex-center();
+    border-radius: 50%;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: #fff;
+    background: linear-gradient(135deg, #a78bfa, #22d3ee 55%, #f472b6);
+    border: 3px solid rgba(255, 255, 255, 0.85);
+    box-shadow: 0 8px 28px rgba(124, 58, 237, 0.55);
+  }
+
+  .userCardName {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: #f8fafc;
+  }
+
+  .userCardRole {
+    margin: 4px 0 0;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(241, 245, 249, 0.6);
+  }
+
+  .userCardStats {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    margin: 20px 0;
+    padding: 16px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .userCardStat {
+    margin: 0;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 2px;
+
+    // Less: значення й підпис — діти статистики, тому вкладені ще глибше
+    .userCardStatValue {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      color: #fff;
+    }
+
+    .userCardStatLabel {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(241, 245, 249, 0.5);
+    }
+  }
+
+  .userCardButton {
+    width: 100%;
+    appearance: none;
+    cursor: pointer;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 18px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: #fff;
+    background: linear-gradient(135deg, #7c3aed, #4f46e5 55%, #0ea5e9);
+    background-size: 180% 180%;
+    box-shadow: 0 8px 24px rgba(124, 58, 237, 0.45);
+    transition: transform 0.12s ease, filter 0.15s ease, background-position 0.4s ease;
+
+    // Less: стани кнопки через батьківський селектор &
+    &:hover {
+      filter: brightness(1.12);
+      background-position: 90% 50%;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .userCardStats {
+      gap: 20px;
+    }
+  }
+}
+
+@keyframes userCardPop {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// ==========================================================================
+// GuestCard — ті самі глобальні класи, що й у №24,
+// згруповані Less-вкладеністю під .guestCard. Вигляд 1-в-1.
+// ==========================================================================
+
+.guestCard {
+  margin-top: 28px;
+  padding: 20px;
+  border-radius: 20px;
+  background: #fffbeb;
+  border: 2px solid @amber;
+  box-shadow:
+    0 16px 40px rgba(245, 158, 11, 0.25),
+    0 2px 0 @amber;
+  animation: guestCardSlide 0.7s @ease-out 0.3s both;
+
+  .guestCardHeader {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-align: left;
+  }
+
+  .guestCardAvatar {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    .flex-center();
+    border-radius: 16px;
+    font-size: 20px;
+    font-weight: 800;
+    color: #fff;
+    background: linear-gradient(135deg, @amber, #ea580c);
+    box-shadow: 0 6px 18px rgba(234, 88, 12, 0.45);
+  }
+
+  .guestCardName {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: #451a03;
+  }
+
+  .guestCardRole {
+    display: inline-block;
+    margin: 6px 0 0;
+    padding: 3px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #9a3412;
+    background: #fed7aa;
+    border-radius: 999px;
+  }
+
+  .guestCardStats {
+    display: flex;
+    margin: 18px 0;
+    padding: 0;
+    background: #ffffff;
+    border: 1px solid #fde68a;
+    border-radius: 14px;
+    overflow: hidden;
+
+    .guestCardStat {
+      margin: 0;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 12px 8px;
+
+      // Less: сусідній селектор — розділювач між колонками
+      + .guestCardStat {
+        border-left: 1px solid #fde68a;
+      }
+
+      .guestCardStatValue {
+        margin: 0;
+        font-size: 17px;
+        font-weight: 800;
+        font-variant-numeric: tabular-nums;
+        color: #7c2d12;
+      }
+
+      .guestCardStatLabel {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #b45309;
+      }
+    }
+  }
+
+  .guestCardButton {
+    width: 100%;
+    appearance: none;
+    cursor: pointer;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 18px;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: #fffbeb;
+    background: #451a03;
+    transition: transform 0.12s ease, background-color 0.15s ease;
+
+    &:hover {
+      background: #7c2d12;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+}
+
+@keyframes guestCardSlide {
+  from {
+    opacity: 0;
+    transform: translateX(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

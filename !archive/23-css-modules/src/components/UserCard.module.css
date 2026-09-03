@@ -1,0 +1,129 @@
+/* ==========================================================================
+   UserCard.module.css — CSS-МОДУЛЬ компонента UserCard (UserCard.tsx).
+   Класи перейменовано в camelCase, щоб звертатися через крапку:
+   styles.userCard, styles.userCardAvatar, ...
+   Збірка перетворить їх на унікальні хеші на кшталт
+   `UserCard_userCard__a1b2c` — витоку в глобальну область більше немає.
+   ========================================================================== */
+
+.userCard {
+  position: relative;
+  margin-top: 28px;
+  padding: 28px 24px 24px;
+  border-radius: 18px;
+  background: rgba(2, 6, 23, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  animation: userCardPop 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+}
+
+.userCardAvatar {
+  width: 76px;
+  height: 76px;
+  margin: -64px auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #fff;
+  background: linear-gradient(135deg, #a78bfa, #22d3ee 55%, #f472b6);
+  border: 3px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 8px 28px rgba(124, 58, 237, 0.55);
+}
+
+.userCardName {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #f8fafc;
+}
+
+.userCardRole {
+  margin: 4px 0 0;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(241, 245, 249, 0.6);
+}
+
+.userCardStats {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  margin: 20px 0;
+  padding: 16px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.userCardStat {
+  margin: 0;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 2px;
+}
+
+.userCardStatValue {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+}
+
+.userCardStatLabel {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(241, 245, 249, 0.5);
+}
+
+.userCardButton {
+  width: 100%;
+  appearance: none;
+  cursor: pointer;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #fff;
+  background: linear-gradient(135deg, #7c3aed, #4f46e5 55%, #0ea5e9);
+  background-size: 180% 180%;
+  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.45);
+  transition: transform 0.12s ease, filter 0.15s ease, background-position 0.4s ease;
+}
+
+.userCardButton:hover {
+  filter: brightness(1.12);
+  background-position: 90% 50%;
+}
+
+.userCardButton:active {
+  transform: scale(0.98);
+}
+
+@keyframes userCardPop {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 560px) {
+  .userCardStats {
+    gap: 20px;
+  }
+}
