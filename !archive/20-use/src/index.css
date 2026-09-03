@@ -1,0 +1,287 @@
+/* ════════════════════════════════════════════════
+   Fonts & Reset
+   ════════════════════════════════════════════════ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --accent:       #6366f1;
+  --accent-glow:  rgba(99, 102, 241, 0.45);
+  --accent-2:     #a78bfa;
+  --bg:           #08080f;
+  --surface:      rgba(255, 255, 255, 0.04);
+  --surface-hover:rgba(255, 255, 255, 0.08);
+  --border:       rgba(255, 255, 255, 0.08);
+  --text:         #e2e8f0;
+  --text-muted:   #94a3b8;
+  --danger:       #f87171;
+  --danger-glow:  rgba(248, 113, 113, 0.3);
+  --radius:       16px;
+}
+
+html, body, #root {
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background:
+    radial-gradient(ellipse 80% 50% at 20% -10%, rgba(99, 102, 241, 0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 110%, rgba(167, 139, 250, 0.12) 0%, transparent 60%),
+    var(--bg);
+}
+
+
+/* ════════════════════════════════════════════════
+   Loader
+   ════════════════════════════════════════════════ */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse-ring {
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); }
+  50%       { box-shadow: 0 0 0 16px transparent; }
+}
+
+@keyframes loader-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+#loader-root {
+  animation: loader-fade-in 0.2s ease;
+}
+
+/* overlay */
+#loader-root > div:first-child {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(8, 8, 15, 0.8);
+  backdrop-filter: blur(10px);
+  z-index: 999;
+}
+
+/* spinner ring */
+#loader-root > div:first-child > div:first-child {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 4px solid rgba(99, 102, 241, 0.15);
+  border-top-color: var(--accent);
+  border-right-color: var(--accent-2);
+  animation: spin 0.9s cubic-bezier(0.4, 0, 0.2, 1) infinite,
+             pulse-ring 1.8s ease-in-out infinite;
+}
+
+
+/* ════════════════════════════════════════════════
+   App shell (App > Root > AppErrorBoundary wrapper)
+   ════════════════════════════════════════════════ */
+#root > div,
+#root > div > div {
+  min-height: 100vh;
+}
+
+
+/* ════════════════════════════════════════════════
+   UsersList
+   ════════════════════════════════════════════════ */
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes list-stagger {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* outer wrapper div */
+#root div:has(> h1) {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 60px 24px 80px;
+  animation: card-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+h1 {
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, #e2e8f0 30%, var(--accent-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 36px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(8px);
+  cursor: default;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  animation: list-stagger 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+li:hover {
+  background: var(--surface-hover);
+  border-color: rgba(99, 102, 241, 0.35);
+  transform: translateX(4px);
+}
+
+/* avatar circle — uses ::before pseudo on li */
+li::before {
+  content: attr(data-initials);
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+
+/* name part */
+li > span:first-child,
+li {
+  font-size: 0.95rem;
+}
+
+/* separator dash */
+li {
+  font-size: 0.9rem;
+  color: var(--text);
+  font-weight: 500;
+}
+
+
+/* ════════════════════════════════════════════════
+   Simulate Error button  (button in Root, no class)
+   ════════════════════════════════════════════════ */
+#root button:not(.error-button) {
+  display: block;
+  margin: 32px auto 0;
+  padding: 10px 24px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 40px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+#root button:not(.error-button):hover {
+  color: var(--danger);
+  border-color: var(--danger);
+  background: rgba(248, 113, 113, 0.06);
+}
+
+
+/* ════════════════════════════════════════════════
+   ErrorFallback  (uses className — existing classes)
+   ════════════════════════════════════════════════ */
+@keyframes error-in {
+  from { opacity: 0; transform: scale(0.94) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.error-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  max-width: 480px;
+  margin: 12vh auto 0;
+  padding: 48px 40px;
+  background: rgba(248, 113, 113, 0.04);
+  border: 1px solid rgba(248, 113, 113, 0.18);
+  border-radius: 24px;
+  backdrop-filter: blur(12px);
+  text-align: center;
+  animation: error-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.error-icon {
+  font-size: 3rem;
+  filter: drop-shadow(0 0 16px var(--danger-glow));
+}
+
+.error-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--danger);
+}
+
+.error-message {
+  font-family: 'Courier New', monospace;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  width: 100%;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.error-button {
+  padding: 12px 32px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+  box-shadow: 0 0 20px var(--accent-glow);
+  transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+
+.error-button:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 0 32px var(--accent-glow);
+}
+
+.error-button:active {
+  transform: translateY(0);
+}
