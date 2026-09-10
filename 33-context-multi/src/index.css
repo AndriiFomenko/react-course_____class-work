@@ -1,0 +1,236 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #0f1117;
+  color: #e2e8f0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.app {
+  width: 100%;
+  max-width: 560px;
+}
+
+h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin-bottom: 1.25rem;
+}
+
+label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  color: #94a3b8;
+  margin-bottom: 1.5rem;
+}
+
+label input {
+  background: #1e2330;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  color: #f1f5f9;
+  padding: 0.35rem 0.65rem;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+label input:focus {
+  border-color: #6366f1;
+}
+
+/* ─── Рівні ─────────────────────────────────────── */
+
+.level {
+  border-radius: 10px;
+  padding: 1rem 1rem 1rem 1.25rem;
+  margin-top: 0.75rem;
+  border: 1px solid transparent;
+  position: relative;
+}
+
+.level-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  display: inline-block;
+  margin-bottom: 0.4rem;
+}
+
+.comment {
+  font-size: 0.82rem;
+  color: #64748b;
+  margin-bottom: 0.5rem;
+}
+
+/* Рівень 2 */
+.level-2 {
+  background: #161b27;
+  border-color: #6366f133;
+}
+.level-2 .level-label {
+  background: #6366f120;
+  color: #818cf8;
+}
+
+/* Рівень 3 */
+.level-3 {
+  background: #141925;
+  border-color: #8b5cf633;
+}
+.level-3 .level-label {
+  background: #8b5cf620;
+  color: #a78bfa;
+}
+
+/* Рівень 4 */
+.level-4 {
+  background: #111622;
+  border-color: #06b6d444;
+}
+.level-4 .level-label {
+  background: #06b6d420;
+  color: #22d3ee;
+}
+
+/* Badge */
+.badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #06b6d4, #6366f1);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  margin-top: 0.25rem;
+}
+
+/* Context consumers (GreetingBanner, UserLabel) */
+.ctx-consumer {
+  font-size: 0.85rem;
+  color: #4ade80;
+  background: #4ade8010;
+  border: 1px solid #4ade8030;
+  border-radius: 6px;
+  padding: 0.4rem 0.65rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.ctx-consumer button {
+  background: #4ade8022;
+  border: 1px solid #4ade8055;
+  color: #4ade80;
+  border-radius: 5px;
+  padding: 0.2rem 0.65rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.ctx-consumer button:hover {
+  background: #4ade8040;
+}
+
+/* ThemePanel */
+.theme-panel {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.theme-panel button {
+  background: #1e2330;
+  border: 1px solid #334155;
+  color: #e2e8f0;
+  border-radius: 6px;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.theme-panel button:hover {
+  border-color: #6366f1;
+}
+
+/* ─── Light theme ───────────────────────────────── */
+
+.app {
+  transition: background 0.3s, color 0.3s;
+}
+
+.app.light {
+  background: #f1f5f9;
+  color: #1e293b;
+}
+
+.app.light h1 {
+  color: #0f172a;
+}
+
+.app.light label {
+  color: #475569;
+}
+
+.app.light label input {
+  background: #fff;
+  border-color: #cbd5e1;
+  color: #1e293b;
+}
+
+.app.light .level-2 {
+  background: #e2e8f0;
+  border-color: #6366f144;
+}
+
+.app.light .level-3 {
+  background: #ddd6fe40;
+  border-color: #8b5cf644;
+}
+
+.app.light .level-4 {
+  background: #cffafe60;
+  border-color: #06b6d466;
+}
+
+.app.light .comment {
+  color: #64748b;
+}
+
+.app.light .theme-panel button {
+  background: #fff;
+  border-color: #cbd5e1;
+  color: #334155;
+}
+
+.app.light .ctx-consumer {
+  background: #dcfce7;
+  border-color: #86efac;
+  color: #166534;
+}
+
+.app.light .ctx-consumer button {
+  background: #bbf7d0;
+  border-color: #86efac;
+  color: #166534;
+}
