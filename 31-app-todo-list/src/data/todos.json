@@ -1,7 +1,7 @@
 [
   {
     "id": "e7b1a23c-4d5e-4f6a-8b9c-0d1e2f3a4b5c",
-    "title": "delectus aut autem",
+    "title": "delectus aut autem - updated!",
     "completed": false,
     "createdAt": "2026-09-07T14:45:00.000Z"
   },
@@ -58,5 +58,11 @@
     "title": "illo est ratione doloremque quia maiores aut",
     "completed": true,
     "createdAt": "2026-09-07T06:05:00.000Z"
+  },
+  {
+    "id": "efa08204-0019-4550-a83d-2b203dca7525",
+    "title": "Нове завдання через модальне вікно",
+    "completed": false,
+    "createdAt": "2026-09-10T17:47:59.534Z"
   }
 ]

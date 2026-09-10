@@ -7,6 +7,8 @@ import { v4 as uuid } from 'uuid'
 const ContextProvider = ({ children }: { children: ReactNode }) => {
   const [todos, setTodos] = useState<TodoInterface[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [editingTodo, setEditingTodo] = useState<TodoInterface | null>(null)
 
   useEffect(() => {
     getTodos()
@@ -18,6 +20,21 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       })
   }, [])
 
+  const openAddModal = () => {
+    setEditingTodo(null)
+    setIsModalOpen(true)
+  }
+
+  const openEditModal = (todo: TodoInterface) => {
+    setEditingTodo(todo)
+    setIsModalOpen(true)
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+    setEditingTodo(null)
+  }
+
   const addTodoHandler = async (title: string) => {
     const newTodo: TodoInterface = {
       id: uuid(),
@@ -28,6 +45,14 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     const updatedTodos = [...todos, newTodo]
     setTodos(updatedTodos)
     await saveTodos(updatedTodos)
+    closeModal()
+  }
+
+  const updateTodoHandler = async (id: string, title: string) => {
+    const updatedTodos = todos.map((todo) => (todo.id === id ? { ...todo, title } : todo))
+    setTodos(updatedTodos)
+    await saveTodos(updatedTodos)
+    closeModal()
   }
 
   const deleteTodoHandler = async (id: string) => {
@@ -65,7 +90,13 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       value={{
         todos: sortedTodos,
         isLoading,
+        isModalOpen,
+        editingTodo,
+        openAddModal,
+        openEditModal,
+        closeModal,
         addTodoHandler,
+        updateTodoHandler,
         deleteTodoHandler,
         clearAllCompletedTodosHandler,
         toggleTodoHandler,

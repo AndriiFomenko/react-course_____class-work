@@ -1,5 +1,5 @@
 import type { TodoInterface } from '../types/todo.interface'
-import { RiDeleteBin2Line, RiCheckLine } from 'react-icons/ri'
+import { RiDeleteBin2Line, RiCheckLine, RiEditLine } from 'react-icons/ri'
 import { useContext } from 'react'
 import { AppContext } from '../context/AppContext'
 
@@ -7,8 +7,9 @@ interface TodoProps {
   todo: TodoInterface
 }
 
-const Todo = ({ todo: { id, title, completed, createdAt } }: TodoProps) => {
-  const { deleteTodoHandler, toggleTodoHandler } = useContext(AppContext)
+const Todo = ({ todo }: TodoProps) => {
+  const { id, title, completed, createdAt } = todo
+  const { deleteTodoHandler, toggleTodoHandler, openEditModal } = useContext(AppContext)
 
   const formattedDate = new Date(createdAt).toLocaleString('uk-UA', {
     day: '2-digit',
@@ -25,6 +26,14 @@ const Todo = ({ todo: { id, title, completed, createdAt } }: TodoProps) => {
         <time dateTime={createdAt}>{formattedDate}</time>
       </h2>
       <p>{completed ? 'Completed' : 'Not completed'}</p>
+      <button
+        type="button"
+        className="edit-btn"
+        onClick={() => openEditModal(todo)}
+        title="Edit todo"
+      >
+        <RiEditLine />
+      </button>
       <button type="button" className="delete-btn" onClick={() => deleteTodoHandler(id)} title="Delete todo">
         <RiDeleteBin2Line />
       </button>

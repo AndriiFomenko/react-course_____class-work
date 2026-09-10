@@ -1,14 +1,14 @@
-import Form from './Form'
 import Menu from './Menu'
 import Todos from './Todos'
+import Modal from './Modal'
 
 const App = () => {
   return (
     <div>
       <h1>ToDo List</h1>
-      <Form />
       <Menu />
       <Todos />
+      <Modal />
     </div>
   )
 }
