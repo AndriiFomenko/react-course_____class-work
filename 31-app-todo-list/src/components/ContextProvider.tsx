@@ -49,7 +49,15 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const updateTodoHandler = async (id: string, title: string) => {
-    const updatedTodos = todos.map((todo) => (todo.id === id ? { ...todo, title } : todo))
+    const updatedTodos = todos.map((todo) =>
+      todo.id === id
+        ? {
+            ...todo,
+            title,
+            createdAt: new Date().toISOString()
+          }
+        : todo
+    )
     setTodos(updatedTodos)
     await saveTodos(updatedTodos)
     closeModal()
@@ -68,7 +76,15 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const toggleTodoHandler = async (id: string) => {
-    const updatedTodos = todos.map((todo) => (todo.id === id ? { ...todo, completed: !todo.completed } : todo))
+    const updatedTodos = todos.map((todo) =>
+      todo.id === id
+        ? {
+            ...todo,
+            completed: !todo.completed,
+            createdAt: new Date().toISOString()
+          }
+        : todo
+    )
     setTodos(updatedTodos)
     await saveTodos(updatedTodos)
   }
