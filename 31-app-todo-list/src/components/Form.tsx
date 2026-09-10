@@ -1,13 +1,11 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { AppContext } from '../context/AppContext'
 
-interface FormProps {
-  addTodoHandler: (title: string) => void
-}
-
-const Form = ({ addTodoHandler }: FormProps) => {
+const Form = () => {
+  const { addTodoHandler } = useContext(AppContext)
   const [title, setTitle] = useState<string>('')
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!title.trim()) return
     addTodoHandler(title)

@@ -1,9 +1,12 @@
 import type { TodoInterface } from '../types/todo.interface'
 
 const API_URL = '/api/todos'
+const DELAY_MS = 1000
+
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 export const getTodos = async (): Promise<TodoInterface[]> => {
-  const response = await fetch(API_URL)
+  const [response] = await Promise.all([fetch(API_URL), delay(DELAY_MS)])
   if (!response.ok) {
     throw new Error(`Failed to load todos from disk: ${response.status}`)
   }
@@ -24,9 +27,12 @@ export const saveTodos = async (todos: TodoInterface[]): Promise<void> => {
 }
 
 export const restoreTodos = async (): Promise<TodoInterface[]> => {
-  const response = await fetch(`${API_URL}/restore`, {
-    method: 'POST'
-  })
+  const [response] = await Promise.all([
+    fetch(`${API_URL}/restore`, {
+      method: 'POST'
+    }),
+    delay(DELAY_MS)
+  ])
   if (!response.ok) {
     throw new Error(`Failed to restore todos on disk: ${response.status}`)
   }

@@ -1,16 +1,19 @@
 import Todo from './Todo'
-import type { TodoInterface } from '../types/todo.interface'
+import { useContext } from 'react'
+import { AppContext } from '../context/AppContext'
 
-interface TodosProps {
-  todos: TodoInterface[]
-  deleteTodoHandler: (id: string) => void
-  toggleTodoHandler: (id: string) => void
-}
+const Todos = () => {
+  const { todos, isLoading } = useContext(AppContext)
 
-const Todos = ({ todos, deleteTodoHandler, toggleTodoHandler }: TodosProps) => {
-  return todos.map((todo) => (
-    <Todo key={todo.id} todo={todo} deleteTodoHandler={deleteTodoHandler} toggleTodoHandler={toggleTodoHandler} />
-  ))
+  if (isLoading) {
+    return <p>Loading tasks...</p>
+  }
+
+  if (!todos.length) {
+    return <h2>Todo list is empty</h2>
+  }
+
+  return todos.map((todo) => <Todo key={todo.id} todo={todo} />)
 }
 
 export default Todos
